@@ -2,13 +2,19 @@
   <h2>{{name}}</h2>
   <p>{{{get_emoji}}}</p>
   <p>{{description}}</p>
-  <p>Created by {{user.name}} on {{format_date date_created}}</p>
   <p>
-    <span for="img" aria-label="money">💲</span>
-    <span class="dollar-amount">{{format_amount needed_funding}}</span>
-    needed
+    Created by {{user.name}} on {{format_date date_created}}
   </p>
-  <p>
-    <button class="btn btn-primary">Fund this Project!</button>
-  </p>
+  <div class="card">
+    <div class="card-header">
+      {{!-- Put some content  here --}}
+    </div>
+    <div class="card-body p-4">
+      <h4>Comment</h4>
+      <textarea rows="8" placeholder="Leave a comment! (:" class="w-100"></textarea>
+    </div>
+    <p>
+      <button class="btn btn-primary btn-block">Submit</button>
+    </p>
+  </div>
 </div>
