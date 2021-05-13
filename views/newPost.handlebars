@@ -1,8 +1,8 @@
+<div class="text-center">
 
-<div class="row mt-4">
   <div class="card col-md-6">
     <div class="card-header">
-      <h3>Create a New Post</h3>
+      <h3>Create New Post</h3>
     </div>
     <form class="form new-project-form">
       <div class="form-group">
@@ -19,24 +19,6 @@
     </form>
   </div>
 
-  <button>+ New Post</button>
-
-  {{#if projects.length}}
-  <div class="col-md-6 project-list">
-    <h3>Current Projects:</h3>
-
-    {{#each projects as |project|}}
-    <div class="row mb-2">
-      <div class="col-md-8">
-        <h4><a href="/project/{{project.id}}">{{project.name}}</a></h4>
-      </div>
-      <div class="col-md-4">
-        <button class="btn btn-sm btn-danger" data-id="{{project.id}}">DELETE</button>
-      </div>
-    </div>
-    {{/each}}
-  </div>
-  {{/if}}
 </div>
 
-<script src="./js/profile.js"></script>
+<script src="./js/dashboard.js"></script>

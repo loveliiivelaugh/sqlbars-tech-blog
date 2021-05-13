@@ -22,10 +22,9 @@
       <nav>
         <ul class="display-inline">
           <li><a href="/">Home</a></li>
-          <li><a href="/profile">Dashboard</a></li>
           <!-- Conditionally render login or logout links -->
           {{#if logged_in}}
-          <li><a href="/profile">profile</a> |
+          <li><a href="/dashboard">Dashboard</a> |
           <button class="no-button" id="logout">logout</button>
           {{else}}
           </li>

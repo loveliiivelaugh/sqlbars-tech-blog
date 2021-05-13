@@ -1,0 +1,81 @@
+<div class="text-center">
+
+  <div id="post" class="card w-100" data-postId="{{id}}">
+    <div class="card-header">
+      <h2>{{title}}</h2>
+      <p>
+        Created by {{user.name}} on {{format_date date_created}}
+      </p>
+    </div>
+    <div class="card-body">
+      <p>{{content}}</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h4>Comment post_id: {{id}}</h4>
+    </div>
+    <form class="form comment-form">
+      <div class="card-body p-4">
+        <textarea id="comment" rows="8" placeholder="Leave a comment! (:" class="w-100"></textarea>
+      </div>
+      <p>
+        <button class="btn btn-primary btn-block" type="submit">Submit</button>
+      </p>
+    </form>
+  </div>
+
+</div>
+
+<script>
+  console.log(document.querySelector('#post').dataset.postid);
+const formHandler = async event => {
+  event.preventDefault();
+
+  const postId = document.querySelector('#post').dataset.postid;
+  const comment = document.querySelector('#comment').value.trim();
+
+  if (comment) {
+    alert(comment + "  :  " + postId);
+
+    const response = await fetch(`/api/posts/comment`, {
+      method: 'POST',
+      body: JSON.stringify({ comment, postId }),
+      headers: { 'Content-Type': 'application/json' },
+    });
+    console.log(response);
+
+    if (response.ok) {
+      document.location.replace(document.location.href);
+    } else {
+      alert('Failed to create post');
+    }
+  }
+};
+
+const delButtonHandler = async (event) => {
+  if (event.target.hasAttribute('data-id')) {
+    const id = event.target.getAttribute('data-id');
+
+    const response = await fetch(`/api/posts/comment/${id}`, {
+      method: 'DELETE',
+    });
+
+    if (response.ok) {
+      document.location.replace('/'+url);
+    } else {
+      alert('Failed to delete project');
+    }
+  }
+};
+
+document
+  .querySelector('.comment-form')
+  .addEventListener('submit', formHandler);
+
+document
+  .querySelector('.post-list')
+  .addEventListener('click', delButtonHandler);
+
+</script>
