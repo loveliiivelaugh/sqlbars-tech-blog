@@ -37,15 +37,28 @@ router.get('/', async (req, res) => {
 // Use withAuth middleware to prevent access to route
 router.get('/post', withAuth, async (req, res) => {
   try {
-    // // Find the logged in user based on the session ID
-    // const userData = await User.findByPk(req.session.user_id, {
-    //   attributes: { exclude: ['password'] },
-    //   include: [{ model: Post }],
-    // });
+    res.render('newPost', {
+      logged_in: req.session.logged_in
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
-    // const user = userData.get({ plain: true });
+router.get('/post/:id', withAuth, async (req, res) => {
+  try {
+    // Find the logged in user based on the session ID
+    const userData = await User.findByPk(req.session.user_id, {
+      attributes: { exclude: ['password'] },
+      include: [{ model: Post }],
+    });
+
+    const user = userData.get({ plain: true });
+
+    console.log(user);
 
     res.render('newPost', {
+      ...user,
       logged_in: req.session.logged_in
     });
   } catch (err) {

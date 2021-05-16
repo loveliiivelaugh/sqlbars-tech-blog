@@ -2,9 +2,19 @@
 
   <div class="card col-md-6">
     <div class="card-header">
-      <h3>Create New Post</h3>
+      {{#if posts.length}}
+        <h3>Update Post</h3>
+      {{else}}
+        <h3>Create New Post</h3>
+      {{/if}}
     </div>
-    <form class="form new-project-form">
+
+    {{#if posts.length}}
+      <form class="form update-project-form" data-postId="{{ post.id }}">
+    {{else}}
+      <form class="form new-project-form" data-postId="{{ post.id }}">
+    {{/if}}
+
       <div class="form-group">
         <label for="project-name">Title</label>
         <input class="form-input" type="text" id="title" name="title" />
@@ -14,11 +24,78 @@
         <textarea class="form-input" type="number" id="content" name="content" rows="6"></textarea>
       </div>
       <div class="form-group">
+      {{#if posts.length}}
+        <button type="submit" class="btn btn-primary btn-block">Update</button>
+      {{else}}
         <button type="submit" class="btn btn-primary btn-block">Create</button>
+      {{/if}}
       </div>
     </form>
   </div>
 
 </div>
 
-<script src="./js/dashboard.js"></script>
+<script>
+  const formHandler = async event => {
+    event.preventDefault();
+
+    const title = document.querySelector('#title').value.trim();
+    const content = document.querySelector('#content').value.trim();
+
+    if (title && content) {
+      console.log(title, content);
+
+      const response = await fetch(`/api/posts`, {
+        method: 'POST',
+        body: JSON.stringify({ title, content }),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      console.log(response);
+
+      if (response.ok) {
+        document.location.replace('/dashboard');
+      } else {
+        alert('Failed to create post');
+      }
+    }
+  };
+
+  const updateFormHandler = async event => {
+    event.preventDefault();
+    console.log("Updating...")
+
+    const title = document.querySelector('#title').value.trim();
+    const content = document.querySelector('#content').value.trim();
+    const id = document.querySelector(".update-project-form").dataset.postId;
+
+    console.log(id);
+
+    if (title && content) {
+      console.log(title, content, id);
+
+      const response = await fetch(`/api/posts/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify({ title, content }),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      console.log(response);
+
+      if (response.ok) {
+        document.location.replace('/dashboard');
+      } else {
+        alert('Failed to create post');
+      }
+    }
+
+
+  document.querySelector('.new-project-form') &&
+    document
+      .querySelector('.new-project-form')
+      .addEventListener('submit', formHandler);
+
+  document.querySelector('.update-project-form') &&
+    document
+      .querySelector('.update-project-form')
+      //.addEventListener('submit', updateFormHandler);
+      .addEventListener('submit', console.log("Event triggered..."));
+</script>

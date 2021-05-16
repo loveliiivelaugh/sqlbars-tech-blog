@@ -1,28 +1,15 @@
-const formHandler = async event => {
-  event.preventDefault();
+const updateButtonHandler = async (event) => {
+  console.log("i am being updated!!");
+  if (event.target.hasAttribute('data-id')) {
+    const id = event.target.getAttribute('data-id');
 
-  const title = document.querySelector('#title').value.trim();
-  const content = document.querySelector('#content').value.trim();
-
-  if (title && content) {
-    console.log(title, content);
-
-    const response = await fetch(`/api/posts`, {
-      method: 'POST',
-      body: JSON.stringify({ title, content }),
-      headers: { 'Content-Type': 'application/json' },
-    });
-    console.log(response);
-
-    if (response.ok) {
-      document.location.replace('/dashboard');
-    } else {
-      alert('Failed to create post');
-    }
+    document.location.replace('/post/' + id);
   }
 };
 
 const delButtonHandler = async (event) => {
+
+  console.log("i am being deleted!!")
   if (event.target.hasAttribute('data-id')) {
     const id = event.target.getAttribute('data-id');
 
@@ -33,15 +20,15 @@ const delButtonHandler = async (event) => {
     if (response.ok) {
       document.location.replace('/dashboard');
     } else {
-      alert('Failed to delete project');
+      alert('Failed to delete post');
     }
   }
 };
 
 document
-  .querySelector('.new-project-form')
-  .addEventListener('submit', formHandler);
+  .getElementById('delete-btn')
+  .addEventListener('click', delButtonHandler);
 
 document
-  .querySelector('.post-list')
-  .addEventListener('click', delButtonHandler);
+  .getElementById('update-btn')
+  .addEventListener('click', updateButtonHandler);
